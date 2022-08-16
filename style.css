@@ -1,0 +1,491 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700&display=swap');
+
+*, *::after, *::before {
+  box-sizing: border-box;
+}
+
+:root {
+  --Dark-Text: hsl(229, 25%, 31%);
+  --Score-Text: hsl(229, 64%, 46%);
+  --Header-Outline: hsl(217, 16%, 45%);
+}
+
+html {
+  font-size: clamp(8px, 1.1vw, 10px);
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  background: radial-gradient(circle at top, hsl(214, 47%, 23%), hsl(237, 49%, 15%));
+  height: 100vh;
+  margin: 0;
+  padding: 5% 0;
+  font-family: 'Barlow Semi Condensed';
+}
+
+header {
+  align-self: center;
+  display: flex;
+  justify-content: space-between;
+  width: 60%;
+  height: auto;
+  padding: 1.5rem;
+  border: 3px solid var(--Header-Outline);
+  border-radius: 20px;
+  background: url('images/logo.svg') no-repeat left content-box;
+  background-size: contain;
+}
+
+.score-container {
+  display: flex;
+  height: 100%;
+  padding: 2rem 4rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.score-text {
+  font-family: 'Barlow Semi Condensed';
+  font-weight: 700;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  font-size: 1.5rem;
+  color: var(--Score-Text);
+}
+
+.score-number {
+  line-height: 5rem;
+  font-family: 'Barlow Semi Condensed';
+  font-weight: 700;
+  font-size: 5rem;
+  text-transform: uppercase;
+  color: var(--Dark-Text);
+}
+
+.first-screen {
+  display: grid;
+  align-self: center;
+  width: 60%;
+  grid-template: 's p' 'r r';
+  height: 50%;
+  margin: auto 0;
+  background: url('images/bg-triangle.svg') no-repeat bottom;
+  background-size: 50%;
+}
+
+.paper-button,
+.scissors-button,
+.rock-button {
+  --button-size: 20rem;
+  place-self: center;
+  cursor: pointer;
+  border-radius: 50%;
+  width: var(--button-size);
+  height: var(--button-size);
+  background: linear-gradient(to top, var(--first-gradient-color), var(--second-gradient-color));
+  border: none;
+  box-shadow: 0 7px 0 0 var(--shadow-color);
+  position: relative;
+}
+
+:is(.paper-button, .scissors-button, .rock-button)::after,
+:is(.paper-button, .scissors-button, .rock-button)::before {
+  content: '';
+  position: absolute;
+  width: calc(var(--button-size) - calc(var(--button-size) - 80%));
+  height: calc(var(--button-size) - calc(var(--button-size) - 80% + 1rem));
+  background: hsl(0, 0%, 90%);
+  top: calc(50% + 0.5rem);
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background-image: var(--background-image);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 50%;
+}
+
+:is(.paper-button, .scissors-button, .rock-button)::before {
+  background-image: none;
+  height: calc(var(--button-size) - calc(var(--button-size) - 80%));
+  background-color: hsl(228, 22%, 80%);
+  top: 50%;
+}
+
+:is(.paper-button, .scissors-button, .rock-button):hover {
+  filter: brightness(1.1);
+}
+
+:is(.paper-button, .scissors-button, .rock-button):active {
+  filter: brightness(0.9);
+}
+
+.rock-button {
+  grid-column: 1 / 3;
+  --background-image: url(images/icon-rock.svg);
+  --first-gradient-color: hsl(349, 71%, 52%);
+  --second-gradient-color:  hsl(349, 70%, 56%);
+  --shadow-color: hsl(349, 71%, 36%);
+}
+
+.paper-button {
+  --background-image: url(images/icon-paper.svg);
+  --first-gradient-color: hsl(230, 89%, 62%);
+  --second-gradient-color:  hsl(230, 89%, 65%);
+  --shadow-color: hsl(230, 65%, 46%);
+}
+
+.scissors-button {
+  --background-image: url(images/icon-scissors.svg);
+  --first-gradient-color: hsl(39, 89%, 49%);
+  --second-gradient-color:  hsl(40, 84%, 53%);
+  --shadow-color: hsl(28, 75%, 44%);
+}
+
+.rules-button {
+  position: absolute;
+  bottom: 3rem;
+  right: 3rem;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  font-family: inherit;
+  letter-spacing: 5px;
+  background: none;
+  color: white;
+  border: 3px solid white;
+  border-radius: 1rem;
+  padding: 1rem 4rem;
+  cursor: pointer;
+}
+
+.rules-button:hover {
+  background-color: white;
+  color: var(--Score-Text);
+}
+
+.rules-button:active {
+  background-color: hsl(0, 0%, 85%);
+  border-color: hsl(0, 0%, 85%);
+}
+
+
+.rules-modal {
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: none;
+  background-color: white;
+  padding: 2rem 2.75rem;
+  border-radius: 10px;
+  color: var(--Dark-Text);
+}
+
+.rules-modal.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal::backdrop {
+  background-color: hsl(0, 0%, 10%, 0.5);
+}
+
+.rules-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.rules-title {
+  font-size: 2.25rem;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.close-rules-button,
+.close-rules-button-mobile {
+  align-self: center;
+  position: relative;
+  height: 2rem;
+  width: 2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.close-rules-button:hover:before,
+.close-rules-button:hover:after,
+.close-rules-button-mobile:hover:before,
+.close-rules-button-mobile:hover:after {
+  background-color: var(--Dark-Text);
+}
+
+.close-rules-button::before,
+.close-rules-button::after,
+.close-rules-button-mobile::before,
+.close-rules-button-mobile::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  height: 2.5rem;
+  width: 3px;
+  background-color: hsl(0, 0%, 80%);
+  border: none;
+}
+
+.close-rules-button::before,
+.close-rules-button-mobile::before {
+  transform: rotate(45deg);
+}
+
+.close-rules-button::after,
+.close-rules-button-mobile::after {
+  transform: rotate(-45deg);
+}
+
+.player-button {
+  --button-size: 30rem;
+  pointer-events: none;
+  grid-column: 1/1;
+}
+
+.house-button {
+  --button-size: 30rem;
+  pointer-events: none;
+  grid-column: 3/3;
+}
+
+.winner {
+  animation: winner 0.25s forwards;
+}
+
+@keyframes winner {
+  0% {
+    box-shadow: 0 10px 0 0 var(--shadow-color);
+  }
+
+  33% {
+    box-shadow: 0 10px 0 0 var(--shadow-color),
+    0 0 0 calc(var(--button-size) * 0.25) hsl(0, 0%, 100%, 0.025);
+  }
+
+  66% {
+    box-shadow: 0 10px 0 0 var(--shadow-color),
+    0 0 0 calc(var(--button-size) * 0.25) hsl(0, 0%, 100%, 0.025),
+    0 0 0 calc(var(--button-size) * 0.5) hsl(0, 0%, 100%, 0.025);
+  }
+
+  100% {
+    box-shadow: 0 10px 0 0 var(--shadow-color),
+    0 0 0 calc(var(--button-size) * 0.25) hsl(0, 0%, 100%, 0.025),
+    0 0 0 calc(var(--button-size) * 0.5) hsl(0, 0%, 100%, 0.025),
+    0 0 0 calc(var(--button-size) * 0.75) hsl(0, 0%, 100%, 0.025);
+  }
+}
+
+.the-house-picked-text {
+  grid-column: 3/3;
+}
+
+.you-picked-text,
+.the-house-picked-text {
+  text-align: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: white;
+  margin: 7rem 0;
+}
+
+.second-screen {
+  display: grid;
+  align-self: center;
+  width: 80%;
+  grid-template-columns: 1fr 20% 1fr;
+  column-gap: 1rem;
+  place-content: center;
+  transition: all 500ms;
+}
+
+.second-screen.waiting {
+  grid-template-columns: 1fr 0px 1fr;
+  gap: 0;
+}
+
+.result {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+  opacity: 1;
+  transition: all 500ms;
+  transition-delay: 500ms;
+}
+
+.result-text {
+  font-size: 5rem;
+  text-transform: uppercase;
+  color: white;
+}
+
+.play-again-button {
+  background-color: white;
+  color: var(--Dark-Text);
+  border: none;
+  border-radius: 10px;
+  width: 100%;
+  padding: 1.5rem 0;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  font-family: 'Barlow Semi Condensed';
+  cursor: pointer;
+}
+
+.play-again-button:hover {
+  color: hsl(0, 66%, 55%);
+}
+
+.second-screen.waiting .result {
+  pointer-events: none;
+  cursor: default;
+  opacity: 0;
+}
+
+.house-button.placeholder {
+  background: hsl(0, 0%, 10%, 0.5);
+  border: none;
+  box-shadow: none;
+  position: static;
+  border-radius: 50%;
+  width: var(--button-size);
+  height: var(--button-size);
+  place-self: center;
+}
+
+.off {
+  background: none;
+  display: none;
+}
+
+@media screen and (max-device-width: 610px)  { 
+  header {
+    width: 80%;
+    border-radius: 5px;
+    border: 3px solid var(--Header-Outline);
+    padding: 1rem;
+  }
+
+  .score-container {
+    padding: 1rem 1.5rem;
+    border-radius: 5px;
+  }
+
+  .score-text {
+    font-size: 1.15rem;
+    letter-spacing: 2px;
+  }
+
+  .score-number {
+    font-size: 3.5rem;
+    line-height: 3.5rem;
+  }
+
+  .first-screen,
+  .second-screen {
+    width: 100%;
+  }
+
+  .rock-button,
+  .paper-button,
+  .scissors-button,
+  .house-button.placeholder {
+    --button-size: 15rem;
+    place-self: center;
+  }
+
+  .rules-button {
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2rem;
+    border-width: 1px;
+  }
+
+  .first-screen {
+    background-position: center;
+  }
+
+  .second-screen {
+    grid-template-columns: 1fr 0px 1fr;
+    grid-template-rows: 50% 25% 30%;
+    height: 60%;
+  }
+
+  .second-screen.waitng {
+    grid-template-columns: 50% 50%;
+    gap: 0;
+  }
+
+  .player-button,
+  .house-button {
+    grid-row: 1/1;
+  }
+
+  .play-again-button {
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    margin-top: 1rem;
+  }
+
+  .result-text {
+    font-size: 4rem;
+  }
+
+  .you-picked-text,
+  .the-house-picked-text {
+    grid-row: 2/2;
+    font-size: 1.5rem;
+    margin: 1rem 0;
+  }
+
+  .result {
+    grid-row: 3/3;
+    grid-column: 1/4;
+    padding: 0 10rem;
+  }
+
+  .rules-modal {
+    display: grid;
+    justify-content: center;
+    margin: 0;
+    height: 100vh;
+    width: 100vw;
+    padding: 2rem 2.75rem;
+    border-radius: 0;
+  }
+
+  .close-rules-button {
+    display: none;
+  }
+
+  .close-rules-button-mobile {
+    display: block;
+    padding: 1.5rem;
+    margin: 0 auto;
+  }
+  
+  .rules-title {
+    width: 100%;
+    font-size: 4rem;
+    text-align: center;
+  }
+}
