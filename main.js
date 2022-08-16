@@ -1,5 +1,3 @@
-import {party} from "/party.js";
-
 const rulesModal = document.querySelector('[data-rules-modal]')
 const openRulesButton = document.querySelector('[data-open-rules]')
 const closeRulesButton = document.querySelector('[data-close-rules]')
@@ -63,7 +61,6 @@ function winCondition(playerPick, housePick) {
   if(win) {
     resulText.textContent = 'you win'
     playerButton.classList.add('winner')
-    party.confetti(playerButton)
     playerScore++
   }
   if(!win) {
