@@ -1,4 +1,4 @@
-import {party} from "/party-js";
+import {party} from "/party-js.js";
 
 const rulesModal = document.querySelector('[data-rules-modal]')
 const openRulesButton = document.querySelector('[data-open-rules]')
